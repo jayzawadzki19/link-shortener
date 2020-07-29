@@ -6,6 +6,6 @@ import lombok.Data;
 public class LinkAndPassword {
 
     private String link;
-    private String password;
+    private int password;
 
 }
