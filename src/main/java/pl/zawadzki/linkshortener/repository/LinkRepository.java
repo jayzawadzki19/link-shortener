@@ -8,7 +8,8 @@ import java.util.Optional;
 
 @Repository
 public interface LinkRepository extends JpaRepository<LinkRequest, Long> {
-    Optional<LinkRequest> findByPassword(String password);
+
+    Optional<LinkRequest> findByShortLinkAndPassword(String shortLink, int password);
 
     Optional<LinkRequest> findByShortLink(String shortLink);
 }

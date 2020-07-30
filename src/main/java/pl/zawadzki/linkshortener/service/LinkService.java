@@ -7,18 +7,21 @@ import pl.zawadzki.linkshortener.dto.Link;
 import pl.zawadzki.linkshortener.repository.LinkRepository;
 
 import java.security.SecureRandom;
+import java.util.Optional;
 
 @Service
 public class LinkService {
 
     private LinkRepository linkRepository;
+    private static SecureRandom random;
+    private static final String TEMPLATE_FOR_LINK = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     @Autowired
     public LinkService(LinkRepository linkRepository) {
         this.linkRepository = linkRepository;
+        random = new SecureRandom();
     }
 
-    private static final String TEMPLATE_FOR_LINK = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     public LinkRequest createNewLink(Link link){
         LinkRequest newLink = new LinkRequest();
@@ -28,17 +31,31 @@ public class LinkService {
         return linkRepository.save(newLink);
     }
 
+    public Link redirectToSite(String key){
+        Optional<LinkRequest> value = linkRepository.findByShortLink(key);
+        if (value.isPresent()){
+            String link = value.get().getFullLink();
+            return new Link(link);
+        }
+        return new Link("sd");
+    }
+
+    public void deleteLink(String link, int password){
+        Optional<LinkRequest> linkRequest = linkRepository.findByShortLinkAndPassword(link,password);
+        if (linkRequest.isPresent()){
+            linkRepository.delete(linkRequest.get());
+        }
+    }
+
     private String createShortLink(){
         StringBuilder builder = new StringBuilder();
-        SecureRandom random = new SecureRandom();
-        for (int i=0; i<5; i++){
+        for (int i=0; i<6; i++){
             builder.append(this.TEMPLATE_FOR_LINK.charAt(random.nextInt(this.TEMPLATE_FOR_LINK.length())));
         }
         return builder.toString();
     }
 
     private int generatePassword(){
-        SecureRandom random = new SecureRandom();
-        return random.nextInt(4);
+        return random.nextInt(999);
     }
 }
