@@ -60,6 +60,6 @@ public class LinkService {
     }
 
     private int generatePassword(){
-        return random.nextInt(999);
+        return random.nextInt(9999);
     }
 }
