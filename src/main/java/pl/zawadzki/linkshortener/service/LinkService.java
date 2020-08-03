@@ -37,6 +37,7 @@ public class LinkService {
         Optional<LinkRequest> value = linkRepository.findByShortLink(key);
         if (value.isPresent()){
             String link = value.get().getFullLink();
+            countSiteViews(value.get());
             return ResponseEntity.ok(new Link(link));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -57,6 +58,11 @@ public class LinkService {
             builder.append(this.TEMPLATE_FOR_LINK.charAt(random.nextInt(this.TEMPLATE_FOR_LINK.length())));
         }
         return builder.toString();
+    }
+
+    private void countSiteViews(LinkRequest linkRequest){
+        linkRequest.updateViews();
+        linkRepository.save(linkRequest);
     }
 
     private int generatePassword(){
