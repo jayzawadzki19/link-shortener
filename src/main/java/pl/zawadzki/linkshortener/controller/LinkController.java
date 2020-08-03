@@ -1,6 +1,7 @@
 package pl.zawadzki.linkshortener.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.zawadzki.linkshortener.dbObject.LinkRequest;
 import pl.zawadzki.linkshortener.dto.Link;
@@ -31,13 +32,13 @@ public class LinkController {
     public LinkAndPassword saveNewLink(@RequestBody Link link){
         LinkRequest linkRequest = linkService.createNewLink(link);
         LinkAndPassword linkAndPassword = new LinkAndPassword();
-        linkAndPassword.setLink(linkRequest.getShortLink());
+        linkAndPassword.setShortLink(linkRequest.getShortLink());
         linkAndPassword.setPassword(linkRequest.getPassword());
         return linkAndPassword;
     }
 
     @DeleteMapping("/delete")
-    public void deleteLink(@RequestBody LinkAndPassword linkAndPassword){
-        linkService.deleteLink(linkAndPassword.getLink(),linkAndPassword.getPassword());
+    public ResponseEntity deleteLink(@RequestBody LinkAndPassword linkAndPassword){
+        return linkService.deleteLink(linkAndPassword.getShortLink(),linkAndPassword.getPassword());
     }
 }

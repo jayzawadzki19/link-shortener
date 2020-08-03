@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LinkAndPassword {
 
-    private String link;
+    private String shortLink;
     private int password;
 
 }

@@ -1,6 +1,8 @@
 package pl.zawadzki.linkshortener.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.zawadzki.linkshortener.dbObject.LinkRequest;
 import pl.zawadzki.linkshortener.dto.Link;
@@ -40,11 +42,13 @@ public class LinkService {
         return new Link("sd");
     }
 
-    public void deleteLink(String link, int password){
+    public ResponseEntity deleteLink(String link, int password){
         Optional<LinkRequest> linkRequest = linkRepository.findByShortLinkAndPassword(link,password);
         if (linkRequest.isPresent()){
             linkRepository.delete(linkRequest.get());
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
+        return ResponseEntity.badRequest().header("Info","Query with given link and password has not been found.").build();
     }
 
     private String createShortLink(){
