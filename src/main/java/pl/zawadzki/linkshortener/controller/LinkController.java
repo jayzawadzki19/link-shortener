@@ -24,8 +24,8 @@ public class LinkController {
 
     @GetMapping("/{link}")
     public void redirect(@PathVariable String link, HttpServletResponse httpServletResponse){
-        Link redirectLink = linkService.redirectToSite(link);
-        httpServletResponse.setHeader("Location", redirectLink.getLink());
+        ResponseEntity<Link> redirectLink = linkService.redirectToSite(link);
+        httpServletResponse.setHeader("Location", redirectLink.getBody().getLink());
         httpServletResponse.setStatus(302);
     }
 

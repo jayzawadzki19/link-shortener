@@ -33,13 +33,13 @@ public class LinkService {
         return linkRepository.save(newLink);
     }
 
-    public Link redirectToSite(String key){
+    public ResponseEntity redirectToSite(String key){
         Optional<LinkRequest> value = linkRepository.findByShortLink(key);
         if (value.isPresent()){
             String link = value.get().getFullLink();
-            return new Link(link);
+            return ResponseEntity.ok(new Link(link));
         }
-        return new Link("sd");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     public ResponseEntity deleteLink(String link, int password){
