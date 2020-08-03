@@ -22,7 +22,7 @@ public class LinkController {
         this.linkService = linkService;
     }
 
-    @GetMapping("/{link}")
+    @GetMapping("/go/{link}")
     public void redirect(@PathVariable String link, HttpServletResponse httpServletResponse){
         ResponseEntity<Link> redirectLink = linkService.redirectToSite(link);
         httpServletResponse.setHeader("Location", redirectLink.getBody().getLink());

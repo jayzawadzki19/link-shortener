@@ -36,7 +36,8 @@ public class LinkRequest {
 
     private static LocalDateTime calculateExpiryDate(){
      LocalDateTime dateTime =  LocalDateTime.now();
-     return dateTime.plusMonths(1);
+     //return dateTime.plusMonths(1);
+        return dateTime.minusMonths(1);
     }
 
 }
