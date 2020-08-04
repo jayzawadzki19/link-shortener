@@ -23,16 +23,16 @@ public class LinkController {
     }
 
     @GetMapping("/go/{link}")
-    public void redirect(@PathVariable String link, HttpServletResponse httpServletResponse){
+    public void redirect(@PathVariable String link, HttpServletResponse httpServletResponse) {
         ResponseEntity<Link> redirectLink = linkService.redirectToSite(link);
         httpServletResponse.setHeader("Location", redirectLink.getBody().getLink());
         httpServletResponse.setStatus(302);
     }
 
     @PostMapping("/new")
-    public LinkAndPassword saveNewLink(@RequestBody Link link){
+    public LinkAndPassword saveNewLink(@RequestBody Link link) {
         LinkAndPassword linkAndPassword = new LinkAndPassword();
-        if (checkLink(link)){
+        if (checkLink(link)) {
             LinkRequest linkRequest = linkService.createNewLink(link);
             linkAndPassword.setShortLink(linkRequest.getShortLink());
             linkAndPassword.setPassword(linkRequest.getPassword());
@@ -41,18 +41,18 @@ public class LinkController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity deleteLink(@RequestBody LinkAndPassword linkAndPassword){
-        return linkService.deleteLink(linkAndPassword.getShortLink(),linkAndPassword.getPassword());
+    public ResponseEntity deleteLink(@RequestBody LinkAndPassword linkAndPassword) {
+        return linkService.deleteLink(linkAndPassword.getShortLink(), linkAndPassword.getPassword());
     }
 
     @ExceptionHandler(LinkException.class)
-    public ResponseEntity catchLinkException(LinkException exception){
-        return ResponseEntity.badRequest().header("Info",exception.getMessage()).build();
+    public ResponseEntity catchLinkException(LinkException exception) {
+        return ResponseEntity.badRequest().header("Info", exception.getMessage()).build();
     }
 
-    private boolean checkLink(Link link){
+    private boolean checkLink(Link link) {
         String linkExmpl = link.getLink();
-        if(linkExmpl.isBlank()){
+        if (linkExmpl.isBlank()) {
             throw new LinkException("Link can not be empty.");
         }
         return true;

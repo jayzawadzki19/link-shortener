@@ -25,7 +25,7 @@ public class LinkService {
     }
 
 
-    public LinkRequest createNewLink(Link link){
+    public LinkRequest createNewLink(Link link) {
         LinkRequest newLink = new LinkRequest();
         newLink.setFullLink(link.getLink());
         newLink.setShortLink(createShortLink());
@@ -33,9 +33,9 @@ public class LinkService {
         return linkRepository.save(newLink);
     }
 
-    public ResponseEntity redirectToSite(String key){
+    public ResponseEntity redirectToSite(String key) {
         Optional<LinkRequest> value = linkRepository.findByShortLink(key);
-        if (value.isPresent()){
+        if (value.isPresent()) {
             String link = value.get().getFullLink();
             countSiteViews(value.get());
             return ResponseEntity.ok(new Link(link));
@@ -43,29 +43,29 @@ public class LinkService {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    public ResponseEntity deleteLink(String link, int password){
-        Optional<LinkRequest> linkRequest = linkRepository.findByShortLinkAndPassword(link,password);
-        if (linkRequest.isPresent()){
+    public ResponseEntity deleteLink(String link, int password) {
+        Optional<LinkRequest> linkRequest = linkRepository.findByShortLinkAndPassword(link, password);
+        if (linkRequest.isPresent()) {
             linkRepository.delete(linkRequest.get());
             return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.badRequest().header("Info","Query with given link and password has not been found.").build();
+        return ResponseEntity.badRequest().header("Info", "Query with given link and password has not been found.").build();
     }
 
-    private String createShortLink(){
+    private String createShortLink() {
         StringBuilder builder = new StringBuilder();
-        for (int i=0; i<6; i++){
+        for (int i = 0; i < 6; i++) {
             builder.append(this.TEMPLATE_FOR_LINK.charAt(random.nextInt(this.TEMPLATE_FOR_LINK.length())));
         }
         return builder.toString();
     }
 
-    private void countSiteViews(LinkRequest linkRequest){
+    private void countSiteViews(LinkRequest linkRequest) {
         linkRequest.updateViews();
         linkRepository.save(linkRequest);
     }
 
-    private int generatePassword(){
+    private int generatePassword() {
         return random.nextInt(9999);
     }
 }

@@ -20,9 +20,9 @@ public class ExpiredLinkService {
     }
 
     @Scheduled(cron = "0 0 3 * * *")
-    public void checkExpiredLinkDate(){
+    public void checkExpiredLinkDate() {
         Optional<List<LinkRequest>> linkRequestList = linkRepository.findAllByExpireTimeBefore(LocalDateTime.now());
-        if(linkRequestList.isPresent()){
+        if (linkRequestList.isPresent()) {
             linkRepository.deleteAll(linkRequestList.get());
         }
     }

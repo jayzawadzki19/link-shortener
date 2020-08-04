@@ -30,14 +30,13 @@ public class LinkRequest {
 
     private final LocalDateTime expireTime = calculateExpiryDate();
 
-    public void updateViews(){
+    public void updateViews() {
         this.views = views + 1;
     }
 
-    private static LocalDateTime calculateExpiryDate(){
-     LocalDateTime dateTime =  LocalDateTime.now();
-     //return dateTime.plusMonths(1);
-        return dateTime.minusMonths(1);
+    private static LocalDateTime calculateExpiryDate() {
+        LocalDateTime dateTime = LocalDateTime.now();
+        return dateTime.plusMonths(1);
     }
 
 }

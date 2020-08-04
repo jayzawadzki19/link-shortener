@@ -17,5 +17,4 @@ public interface LinkRepository extends JpaRepository<LinkRequest, Long> {
 
     Optional<List<LinkRequest>> findAllByExpireTimeBefore(LocalDateTime expireDate);
 
-    //Optional<List<LinkRequest>> findAllByBeforeTimeAfter(LocalDateTime expireTime);
 }
