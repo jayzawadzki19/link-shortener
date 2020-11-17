@@ -19,7 +19,6 @@ Project is created with:
   - Short link saves space and redirects directly to full link.
   - Delete created short link with it's code and password.
   - Every created link has his own views counter.
-  - Drag and drop images (requires your Dropbox account be linked)
 
 ## Setup
 
