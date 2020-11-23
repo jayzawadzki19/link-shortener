@@ -30,14 +30,14 @@ public class LinkController {
     }
 
     @PostMapping("/new")
-    public LinkAndPassword saveNewLink(@RequestBody Link link) {
+    public ResponseEntity<LinkAndPassword> saveNewLink(@RequestBody Link link) {
         LinkAndPassword linkAndPassword = new LinkAndPassword();
         if (checkLink(link)) {
             LinkRequest linkRequest = linkService.createNewLink(link);
             linkAndPassword.setShortLink(linkRequest.getShortLink());
             linkAndPassword.setPassword(linkRequest.getPassword());
         }
-        return linkAndPassword;
+        return ResponseEntity.ok(linkAndPassword);
     }
 
     @DeleteMapping("/delete")
