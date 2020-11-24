@@ -34,3 +34,4 @@ build/
 
 ### DB ###
 linkshortener.mv.db
+/linkshortener.trace.db

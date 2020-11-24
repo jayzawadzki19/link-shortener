@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/")
 public class LinkController {
 
-    LinkService linkService;
+    private LinkService linkService;
 
     @Autowired
     public LinkController(LinkService linkService) {
